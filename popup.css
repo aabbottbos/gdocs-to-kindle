@@ -1,0 +1,373 @@
+/**
+ * Popup Styles
+ * Styles for the extension popup interface
+ */
+
+/* ============================================
+   GLOBAL STYLES
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 320px;
+  min-height: 400px;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #202124;
+  background: white;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.header {
+  padding: 16px;
+  border-bottom: 1px solid #e8eaed;
+  background: linear-gradient(135deg, #232F3E 0%, #37475A 100%);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+.section {
+  padding: 16px;
+  border-bottom: 1px solid #e8eaed;
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #5f6368;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   STATUS SECTION
+   ============================================ */
+.status-section {
+  background: #f8f9fa;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot--success {
+  background-color: #34a853;
+}
+
+.status-dot--warning {
+  background-color: #fbbc04;
+}
+
+.status-dot--error {
+  background-color: #ea4335;
+}
+
+.status-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.status-email {
+  font-size: 12px;
+  color: #5f6368;
+  margin-left: 16px;
+  display: none;
+}
+
+.status-email a {
+  color: #1a73e8;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.status-email a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================
+   SEND SECTION
+   ============================================ */
+.send-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.send-button {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+
+  background-color: #1a73e8;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.send-button:hover:not(:disabled) {
+  background-color: #1765cc;
+}
+
+.send-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.send-button:disabled {
+  background-color: #dadce0;
+  color: #80868b;
+  cursor: not-allowed;
+}
+
+.send-button .button-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Button states */
+.send-button--loading {
+  background-color: #5f6368;
+  pointer-events: none;
+}
+
+.send-button--success {
+  background-color: #34a853;
+  pointer-events: none;
+}
+
+.send-button--error {
+  background-color: #ea4335;
+}
+
+/* Format selector */
+.format-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.format-selector label {
+  font-size: 13px;
+  color: #5f6368;
+  font-weight: 500;
+}
+
+.format-selector select {
+  flex: 1;
+  height: 32px;
+  padding: 0 8px;
+  font-family: inherit;
+  font-size: 13px;
+  color: #202124;
+  background: white;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.format-selector select:hover {
+  border-color: #1a73e8;
+}
+
+.format-selector select:focus {
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
+}
+
+/* ============================================
+   HISTORY SECTION
+   ============================================ */
+.history-section {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-empty {
+  text-align: center;
+  color: #80868b;
+  font-size: 13px;
+  padding: 16px;
+}
+
+.history-item {
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.history-item:hover {
+  background: #e8eaed;
+}
+
+.history-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #202124;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-meta {
+  font-size: 11px;
+  color: #5f6368;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.format-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  background: #e8f0fe;
+  color: #1a73e8;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-top: 1px solid #e8eaed;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #5f6368;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.footer-link:hover {
+  background: #e8eaed;
+  color: #202124;
+}
+
+.footer-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+.history-section::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-section::-webkit-scrollbar-track {
+  background: #f8f9fa;
+}
+
+.history-section::-webkit-scrollbar-thumb {
+  background: #dadce0;
+  border-radius: 3px;
+}
+
+.history-section::-webkit-scrollbar-thumb:hover {
+  background: #bdc1c6;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.history-item {
+  animation: fadeIn 0.2s ease;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 320px) {
+  body {
+    width: 100%;
+  }
+}

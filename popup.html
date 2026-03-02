@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docs to Kindle</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-content">
+      <img src="icons/icon48.png" alt="Docs to Kindle" class="header-icon">
+      <h1 class="header-title">Docs to Kindle</h1>
+    </div>
+  </div>
+
+  <!-- Status Section -->
+  <div class="section status-section">
+    <div class="status-indicator">
+      <span class="status-dot" id="statusDot"></span>
+      <span class="status-text" id="statusText">Checking status...</span>
+    </div>
+    <div class="status-email" id="statusEmail"></div>
+  </div>
+
+  <!-- Send Section -->
+  <div class="section send-section">
+    <button id="sendBtn" class="send-button" disabled>
+      <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        <polyline points="10 8 14 12 10 16"/>
+      </svg>
+      <span id="sendBtnText">Send Current Doc</span>
+    </button>
+
+    <div class="format-selector">
+      <label for="formatSelect">Format:</label>
+      <select id="formatSelect">
+        <option value="epub">EPUB (recommended)</option>
+        <option value="docx">DOCX</option>
+        <option value="pdf">PDF</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- History Section -->
+  <div class="section history-section">
+    <h2 class="section-title">Recent Sends</h2>
+    <div id="historyList" class="history-list">
+      <div class="history-empty">No documents sent yet</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <a href="#" id="settingsLink" class="footer-link">
+      <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/>
+      </svg>
+      Settings
+    </a>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

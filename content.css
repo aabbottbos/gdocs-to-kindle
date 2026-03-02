@@ -1,0 +1,278 @@
+/**
+ * Content Script Styles
+ * Styles for the "Send to Kindle" button injected into Google Docs
+ */
+
+/* ============================================
+   BUTTON BASE STYLES
+   ============================================ */
+.docs-to-kindle-button {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  height: 36px;
+  margin-right: 8px;
+
+  /* Typography - Match Google Docs */
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #3c4043;
+
+  /* Appearance */
+  background-color: white;
+  border: 1px solid #dadce0;
+  border-radius: 20px;
+  box-shadow: none;
+
+  /* Interaction */
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+
+  /* Positioning */
+  position: relative;
+  z-index: 100;
+}
+
+/* Hover state */
+.docs-to-kindle-button:hover {
+  background-color: #f1f3f4;
+  border-color: #d2e3fc;
+  color: #1a73e8;
+}
+
+/* Active/pressed state */
+.docs-to-kindle-button:active {
+  background-color: #e8f0fe;
+  border-color: #1a73e8;
+}
+
+/* ============================================
+   BUTTON STATE STYLES
+   ============================================ */
+
+/* Loading state */
+.docs-to-kindle-button[data-state="loading"] {
+  opacity: 0.7;
+  pointer-events: none;
+  cursor: wait;
+}
+
+/* Success state */
+.docs-to-kindle-button[data-state="success"] {
+  background-color: #e6f4ea;
+  border-color: #34a853;
+  color: #137333;
+  pointer-events: none;
+}
+
+.docs-to-kindle-button[data-state="success"]:hover {
+  background-color: #e6f4ea;
+  border-color: #34a853;
+  color: #137333;
+}
+
+/* Error state */
+.docs-to-kindle-button[data-state="error"] {
+  background-color: #fce8e6;
+  border-color: #ea4335;
+  color: #c5221f;
+}
+
+.docs-to-kindle-button[data-state="error"]:hover {
+  background-color: #fce8e6;
+  border-color: #d93025;
+  color: #c5221f;
+}
+
+/* ============================================
+   ICON STYLES
+   ============================================ */
+.docs-to-kindle-button .kindle-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   LABEL STYLES
+   ============================================ */
+.docs-to-kindle-button .kindle-label {
+  white-space: nowrap;
+  position: relative;
+}
+
+/* Loading spinner */
+.docs-to-kindle-button[data-state="loading"] .kindle-label::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border: 2px solid #dadce0;
+  border-top-color: #1a73e8;
+  border-radius: 50%;
+  animation: kindle-spin 0.8s linear infinite;
+}
+
+@keyframes kindle-spin {
+  0% {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+/* ============================================
+   TOAST NOTIFICATION STYLES
+   ============================================ */
+.docs-to-kindle-toast {
+  /* Layout */
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+
+  /* Sizing */
+  min-width: 300px;
+  max-width: 500px;
+  padding: 12px 24px;
+
+  /* Typography */
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: white;
+  text-align: center;
+
+  /* Appearance */
+  background-color: #202124;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2),
+              0 2px 4px rgba(0, 0, 0, 0.1);
+
+  /* Animation */
+  opacity: 0;
+  transform: translateX(-50%) translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.docs-to-kindle-toast--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* Success toast */
+.docs-to-kindle-toast--success {
+  background-color: #1e8e3e;
+}
+
+/* Error toast */
+.docs-to-kindle-toast--error {
+  background-color: #d93025;
+}
+
+/* Info toast */
+.docs-to-kindle-toast--info {
+  background-color: #1a73e8;
+}
+
+/* Toast links */
+.docs-to-kindle-toast a {
+  color: white;
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.docs-to-kindle-toast a:hover {
+  text-decoration: none;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+@media (max-width: 768px) {
+  .docs-to-kindle-button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .docs-to-kindle-button .kindle-label {
+    display: none;
+  }
+
+  .docs-to-kindle-toast {
+    min-width: 250px;
+    left: 16px;
+    right: 16px;
+    transform: translateX(0);
+    max-width: calc(100vw - 32px);
+  }
+
+  .docs-to-kindle-toast--visible {
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+.docs-to-kindle-button:focus {
+  outline: 2px solid #1a73e8;
+  outline-offset: 2px;
+}
+
+.docs-to-kindle-button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .docs-to-kindle-button {
+    border-width: 2px;
+  }
+
+  .docs-to-kindle-button:hover {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .docs-to-kindle-button,
+  .docs-to-kindle-toast {
+    transition: none;
+  }
+
+  .docs-to-kindle-button[data-state="loading"] .kindle-label::after {
+    animation: none;
+    border-top-color: #dadce0;
+  }
+}
+
+/* Dark mode support (if Google Docs ever adds it) */
+@media (prefers-color-scheme: dark) {
+  .docs-to-kindle-button {
+    background-color: #2d2e30;
+    border-color: #5f6368;
+    color: #e8eaed;
+  }
+
+  .docs-to-kindle-button:hover {
+    background-color: #3c4043;
+    border-color: #8ab4f8;
+    color: #8ab4f8;
+  }
+}
