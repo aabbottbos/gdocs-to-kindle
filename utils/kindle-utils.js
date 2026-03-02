@@ -58,9 +58,9 @@ export function sanitizeFileName(name) {
   }
 
   // Remove characters not safe for filenames
-  // Keep alphanumeric, spaces, hyphens, and underscores
+  // Keep alphanumeric, spaces, hyphens, underscores, and periods
   let sanitized = name
-    .replace(/[^a-zA-Z0-9\s\-_]/g, '')
+    .replace(/[^a-zA-Z0-9\s\-_.]/g, '')
     .trim();
 
   // Replace multiple spaces with single space

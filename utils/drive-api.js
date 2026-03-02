@@ -48,9 +48,19 @@ export async function exportDocument(token, documentId, format = 'epub') {
     if (response.status === 403) {
       const errorData = await response.json().catch(() => ({}));
 
+      // Log full error for debugging
+      console.error('Drive API 403 error:', errorData);
+
       // Check for specific 403 errors
       if (errorData.error?.message?.includes('exportSizeLimitExceeded')) {
         throw new Error(`This document is too large to export as ${format.toUpperCase()}. Try PDF format or split the document.`);
+      }
+
+      // Check if it's a scope/permission issue
+      if (errorData.error?.message?.includes('insufficient') ||
+          errorData.error?.message?.includes('permission') ||
+          errorData.error?.code === 403) {
+        throw new Error(`Access denied. The extension may need to be re-authorized. Go to Settings and sign out, then sign back in. Error: ${errorData.error?.message || 'Permission denied'}`);
       }
 
       throw new Error('No access to this document or document too large. Please check permissions.');

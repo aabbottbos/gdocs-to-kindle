@@ -55,6 +55,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 async function handleSendToKindle(message) {
   const { documentId, documentTitle } = message;
 
+  console.log('=== Send to Kindle started ===');
+  console.log('Document ID:', documentId);
+  console.log('Document Title:', documentTitle);
+
   if (!documentId) {
     return { success: false, error: 'Document ID is required' };
   }
@@ -62,9 +66,11 @@ async function handleSendToKindle(message) {
   try {
     // Step 1: Get OAuth token
     const token = await getAuthToken();
+    console.log('Got OAuth token, length:', token ? token.length : 'null');
 
     // Step 2: Get settings
     const settings = await getSettings();
+    console.log('Settings loaded:', { kindleEmail: settings.kindleEmail, format: settings.format });
 
     if (!settings.kindleEmail) {
       return {
@@ -74,9 +80,31 @@ async function handleSendToKindle(message) {
       };
     }
 
-    // Step 3: Export document from Google Drive
+    // Step 3: Verify document type first
+    console.log('Checking document metadata for ID:', documentId);
+    try {
+      const metadata = await fetch(`https://www.googleapis.com/drive/v3/files/${documentId}?fields=id,name,mimeType`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      }).then(r => r.json());
+
+      console.log('Document metadata:', metadata);
+
+      // Check if it's a Google Docs file
+      if (metadata.mimeType !== 'application/vnd.google-apps.document') {
+        return {
+          success: false,
+          error: `This is not a Google Docs document. File type: ${metadata.mimeType}. Only Google Docs can be exported.`
+        };
+      }
+    } catch (metadataError) {
+      console.error('Failed to get document metadata:', metadataError);
+      // Continue anyway - the export call will give us the real error
+    }
+
+    // Step 4: Export document from Google Drive
     const format = settings.format || 'epub';
     const formatInfo = getFormatInfo(format);
+    console.log('Exporting document:', { documentId, format, mimeType: formatInfo.mimeType });
 
     let blob;
     try {
@@ -91,7 +119,7 @@ async function handleSendToKindle(message) {
       }
     }
 
-    // Step 4: Send to Kindle via Gmail
+    // Step 5: Send to Kindle via Gmail
     const title = documentTitle || 'Untitled Document';
     const safeFileName = sanitizeFileName(title) + '.' + formatInfo.extension;
     const emailSubject = title;
@@ -144,7 +172,7 @@ async function handleSendToKindle(message) {
       }
     }
 
-    // Step 5: Save to history
+    // Step 6: Save to history
     await saveToHistory(documentId, title, format);
 
     return {

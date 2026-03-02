@@ -102,12 +102,16 @@ async function handleSendToKindle() {
 
   // Get document info
   const documentId = getDocumentId();
+  console.log('Content script - Document ID:', documentId);
+  console.log('Content script - Current URL:', window.location.href);
+
   if (!documentId) {
     showToast('error', 'Unable to get document ID. Please refresh the page.');
     return;
   }
 
   const documentTitle = getDocumentTitle();
+  console.log('Content script - Document title:', documentTitle);
 
   // Set loading state
   setButtonState('loading');
